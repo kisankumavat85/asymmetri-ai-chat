@@ -1,4 +1,4 @@
-import { getWeather } from "@/services/open-weather";
+import { getWeather } from "@/services/weather";
 import { InferUITools, tool } from "ai";
 import z from "zod";
 
@@ -14,6 +14,9 @@ export const tools = {
       return weather;
     },
   }),
+  // getStock: tool({
+
+  // })
 };
 
 export type ChatUITools = InferUITools<typeof tools>;
