@@ -1,4 +1,6 @@
 import { AppHeader } from "@/components/app-header";
+import { AppSidebar } from "@/components/app-sidebar";
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { ReactNode } from "react";
 
 type Props = {
@@ -8,12 +10,13 @@ type Props = {
 const ChatLayout = (props: Props) => {
   const { children } = props;
   return (
-    <div className="flex justify-center">
-      <div className="flex flex-col w-full max-w-3xl min-h-screen border border-red-400">
+    <SidebarProvider>
+      <AppSidebar />
+      <SidebarInset>
         <AppHeader />
-        {children}
-      </div>
-    </div>
+        <div className="grow border">{children}</div>
+      </SidebarInset>
+    </SidebarProvider>
   );
 };
 
