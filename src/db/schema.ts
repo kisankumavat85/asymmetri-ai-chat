@@ -63,6 +63,8 @@ export const chats = pgTable("chats", {
   ...timestamps,
 });
 
+export type SelectChat = typeof chats.$inferSelect;
+
 export const roleEnum = pgEnum("role", ["system", "user", "assistant"]);
 
 export const messages = pgTable("messages", {
