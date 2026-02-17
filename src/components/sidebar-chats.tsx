@@ -12,9 +12,8 @@ type Props = {
   initialChats: SelectChat[];
 };
 
-export const Chats = (props: Props) => {
+export const SidebarChats = (props: Props) => {
   const { initialChats } = props;
-  console.log("initialChats", initialChats);
 
   return (
     <SidebarGroup>
@@ -22,7 +21,7 @@ export const Chats = (props: Props) => {
       <SidebarMenu>
         {initialChats.length ? (
           initialChats.map((item) => (
-            <SidebarMenuItem key={item.title}>
+            <SidebarMenuItem key={item.id}>
               <SidebarMenuButton asChild tooltip={item.title}>
                 <Link href={item.id}>
                   <span>{item.title}</span>

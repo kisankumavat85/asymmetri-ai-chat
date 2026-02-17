@@ -11,5 +11,4 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     sessionsTable: sessions,
   }),
   providers: [GitHub],
-  debug: true,
 });
