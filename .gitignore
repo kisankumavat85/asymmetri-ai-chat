@@ -42,3 +42,4 @@ next-env.d.ts
 
 # Ignoring package-lock.json because of custom registry
 package-lock.json
+.npmrc
