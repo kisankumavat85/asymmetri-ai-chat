@@ -12,9 +12,9 @@ const ChatLayout = (props: Props) => {
   return (
     <SidebarProvider>
       <AppSidebar />
-      <SidebarInset>
+      <SidebarInset className="h-dvh flex flex-col overflow-hidden">
         <AppHeader />
-        <div className="grow border">{children}</div>
+        <div className="flex flex-1 flex-col min-h-0 border">{children}</div>
       </SidebarInset>
     </SidebarProvider>
   );

@@ -64,6 +64,7 @@ export const chats = pgTable("chats", {
 });
 
 export type SelectChat = typeof chats.$inferSelect;
+export type InsertChat = typeof chats.$inferInsert;
 
 export const roleEnum = pgEnum("role", ["system", "user", "assistant"]);
 
@@ -77,3 +78,6 @@ export const messages = pgTable("messages", {
   toolInvocations: jsonb("tool_invocations"),
   createdAt: timestamps.createdAt,
 });
+
+export type SelectMessage = typeof messages.$inferSelect;
+export type InsertMessage = typeof messages.$inferInsert;
