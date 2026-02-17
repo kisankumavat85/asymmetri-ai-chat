@@ -1,6 +1,3 @@
-"use client";
-
-import { SelectChat } from "@/db/schema";
 import {
   Sidebar,
   SidebarContent,
@@ -10,10 +7,17 @@ import {
   SidebarMenuItem,
 } from "./ui/sidebar";
 import { Plus, Sparkles } from "lucide-react";
-import { Chats } from "./chats";
+import { SidebarChats } from "./sidebar-chats";
 import Link from "next/link";
+import { _getChats } from "@/db/dal/chats";
+import { auth } from "@/auth";
+import { redirect } from "next/navigation";
 
-export const AppSidebar = () => {
+export const AppSidebar = async () => {
+  const session = await auth();
+  if (!session?.user?.id) return redirect("/auth");
+  const chats = await _getChats({ userId: session.user.id });
+
   return (
     <Sidebar>
       <SidebarHeader className="gap-4">
@@ -38,7 +42,7 @@ export const AppSidebar = () => {
       </SidebarHeader>
 
       <SidebarContent>
-        <Chats initialChats={[]} />
+        <SidebarChats initialChats={chats} />
       </SidebarContent>
     </Sidebar>
   );

@@ -1,14 +1,22 @@
-import { streamText, UIMessage, convertToModelMessages } from "ai";
+import {
+  streamText,
+  UIMessage,
+  convertToModelMessages,
+  stepCountIs,
+  UIDataTypes,
+  UITools,
+} from "ai";
 import { openai } from "@/lib/ai";
 import { auth } from "@/auth";
 import { _getChat } from "@/db/dal/chats";
 import { _createMessage } from "@/db/dal/messages";
+import { ChatUITools, tools } from "@/lib/ai/tools";
+
+export type ChatMessage = UIMessage<never, UIDataTypes, ChatUITools>;
 
 type Payload = {
-  messages: UIMessage[];
-  userId: string;
+  messages: ChatMessage[];
   chatId: string;
-  resourceId: number;
 };
 
 export const POST = async (request: Request) => {
@@ -65,6 +73,8 @@ export const POST = async (request: Request) => {
           toolInvocations: toolCalls,
         });
       },
+      tools,
+      stopWhen: stepCountIs(2),
     });
 
     return result.toUIMessageStreamResponse();

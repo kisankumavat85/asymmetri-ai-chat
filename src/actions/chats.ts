@@ -1,8 +1,14 @@
 "use server";
 
 import { auth } from "@/auth";
-import { _createChat, _getChat, _getChats } from "@/db/dal/chats";
+import {
+  _createChat,
+  _getChat,
+  _getChats,
+  GetChatsParams,
+} from "@/db/dal/chats";
 import { InsertChat } from "@/db/schema";
+import { revalidatePath } from "next/cache";
 
 export const getChat = async (chatId: string) => {
   try {
@@ -27,7 +33,7 @@ export const getChat = async (chatId: string) => {
   }
 };
 
-export const getChats = async () => {
+export const getChats = async (params: Omit<GetChatsParams, "userId">) => {
   try {
     const session = await auth();
     if (!session?.user?.id) {
@@ -36,7 +42,7 @@ export const getChats = async () => {
         error: "Unauthorized",
       };
     }
-    const chats = await _getChats(session.user.id);
+    const chats = await _getChats({ ...params, userId: session.user.id });
     return {
       success: true,
       data: chats,
@@ -60,6 +66,7 @@ export const createChat = async (payload: Omit<InsertChat, "userId">) => {
       };
     }
     const [chat] = await _createChat({ ...payload, userId: session.user.id });
+    revalidatePath("/chat", "layout");
     return {
       success: true,
       data: chat,
