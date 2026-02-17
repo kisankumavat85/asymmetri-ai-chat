@@ -1,12 +1,11 @@
-import { auth } from "@/auth";
+import { PromptInput } from "@/components/prompt-input";
 
 const ChatPage = async () => {
-  const session = await auth();
   return (
-    <div>
-      ChatPage
-      <div className="">
-        <code>{JSON.stringify(session)}</code>
+    <div className="grow grid grid-rows-[1fr_auto] p-4">
+      <div className="">Chat here</div>
+      <div className="flex justify-center">
+        <PromptInput />
       </div>
     </div>
   );

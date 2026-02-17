@@ -5,7 +5,7 @@ export const AppHeader = async () => {
   const session = await auth();
 
   return (
-    <div className="flex justify-between items-center border px-4 shadow-2xl w-full h-12">
+    <div className="flex justify-between items-center border px-4 shadow w-full h-12">
       <div className="text-md font-bold">Chat App</div>
       <div className="flex items-center gap-2">
         <div className="">{session?.user?.name}</div>
