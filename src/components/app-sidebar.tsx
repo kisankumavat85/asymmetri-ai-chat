@@ -1,14 +1,6 @@
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-} from "./ui/sidebar";
-import { Plus, Sparkles } from "lucide-react";
+import { Sidebar, SidebarContent, SidebarHeader } from "./ui/sidebar";
+import { Sparkles } from "lucide-react";
 import { SidebarChats } from "./sidebar-chats";
-import Link from "next/link";
 import { _getChats } from "@/db/dal/chats";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
@@ -29,16 +21,6 @@ export const AppSidebar = async () => {
             <span className="truncate text-md font-bold">Chat App</span>
           </div>
         </div>
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton asChild>
-              <Link href="/chat">
-                <Plus />
-                New chat
-              </Link>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
       </SidebarHeader>
 
       <SidebarContent>
