@@ -11,9 +11,9 @@ const AuthPage = () => {
           <Button onClick={() => signIn("github")}>
             Login with GitHub
           </Button>
-          <Button onClick={() => signIn("google")}>
+          {/* <Button onClick={() => signIn("google")}>
             Login with Google
-          </Button>
+          </Button> */}
         </div>
       </div>
     </div>
