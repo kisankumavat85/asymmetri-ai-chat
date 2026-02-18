@@ -22,11 +22,7 @@ export const Chat = (props: Props) => {
   const router = useRouter();
 
   const { messages, sendMessage, status } = useChat<ChatMessage>({
-    messages: initialMessages.map((message) => ({
-      id: String(message.id),
-      role: message.role,
-      parts: [{ type: "text", text: message.content }],
-    })),
+    messages: initialMessages,
     onError: (error) => {
       console.error("Chat Error: ", error);
     },
