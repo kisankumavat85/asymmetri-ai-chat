@@ -8,6 +8,7 @@ import { useChat } from "@ai-sdk/react";
 import { Loader } from "lucide-react";
 import { ChatMessage } from "../api/chat/route";
 import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 
 type Props = {
   chatId?: string;
@@ -18,6 +19,7 @@ export const Chat = (props: Props) => {
   const { chatId, initialMessages = [] } = props;
   const scrollRef = useRef<HTMLDivElement>(null);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
 
   const { messages, sendMessage, status } = useChat<ChatMessage>({
     messages: initialMessages.map((message) => ({
@@ -41,6 +43,8 @@ export const Chat = (props: Props) => {
     const result = await createChat({
       title: prompt.substring(0, 40),
     });
+
+    router.refresh();
 
     if (result.success && result.data?.id) {
       history.replaceState(null, "", `/chat/${result.data.id}`);

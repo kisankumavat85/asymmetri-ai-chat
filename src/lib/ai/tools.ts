@@ -1,6 +1,8 @@
-import { getWeather } from "@/services/open-weather";
 import { InferUITools, tool } from "ai";
 import z from "zod";
+import { getNextF1Race } from "@/services/f1";
+import { getStockPrice } from "@/services/stocks";
+import { getWeather } from "@/services/weather";
 
 export const tools = {
   weather: tool({
@@ -10,8 +12,27 @@ export const tools = {
     }),
     execute: async ({ location }) => {
       const weather = await getWeather(location);
-      console.log("weather", weather);
       return weather;
+    },
+  }),
+  getStock: tool({
+    description: "Get the stock price of symbol",
+    inputSchema: z.object({
+      symbol: z.string().describe("The symbol of the stock to get the price"),
+    }),
+    execute: async ({ symbol }) => {
+      const stockPrice = await getStockPrice(symbol);
+      return stockPrice;
+    },
+  }),
+  getNextF1Race: tool({
+    description: "Get the stock price of symbol",
+    inputSchema: z
+      .object({})
+      .describe("Input schema not required for this tool"),
+    execute: async () => {
+      const nextRace = await getNextF1Race();
+      return nextRace;
     },
   }),
 };
