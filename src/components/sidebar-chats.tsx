@@ -23,7 +23,7 @@ export const SidebarChats = (props: Props) => {
           initialChats.map((item) => (
             <SidebarMenuItem key={item.id}>
               <SidebarMenuButton asChild tooltip={item.title}>
-                <Link href={item.id}>
+                <Link href={`/chat/${item.id}`}>
                   <span>{item.title}</span>
                 </Link>
               </SidebarMenuButton>

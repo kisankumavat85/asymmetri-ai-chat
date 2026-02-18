@@ -65,7 +65,8 @@ export const POST = async (request: Request) => {
       model: openai("gpt-4o"),
       system: "", // TODO: Add system prompt
       messages: await convertToModelMessages(messages),
-      onFinish: async ({ text, toolCalls }) => {
+      onFinish: async ({ text, toolCalls, toolResults }) => {
+        console.log({ toolCalls, toolResults });
         await _createMessage({
           chatId,
           role: "assistant",
