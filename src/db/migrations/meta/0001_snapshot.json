@@ -1,6 +1,6 @@
 {
-  "id": "a6daa213-0cbf-41dd-a4a0-9a5c6bc4daf2",
-  "prevId": "657ff15d-e276-4ac5-8c95-63c51977eedb",
+  "id": "588b80c6-7755-4f59-b64f-84cb75b67960",
+  "prevId": "80f7371d-7242-43c7-b5e0-2f8cfbf16c99",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -149,9 +149,10 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "serial",
+          "type": "uuid",
           "primaryKey": true,
-          "notNull": true
+          "notNull": true,
+          "default": "gen_random_uuid()"
         },
         "chat_id": {
           "name": "chat_id",
@@ -166,17 +167,12 @@
           "primaryKey": false,
           "notNull": true
         },
-        "content": {
-          "name": "content",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "tool_invocations": {
-          "name": "tool_invocations",
+        "parts": {
+          "name": "parts",
           "type": "jsonb",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true,
+          "default": "'[]'::jsonb"
         },
         "created_at": {
           "name": "created_at",

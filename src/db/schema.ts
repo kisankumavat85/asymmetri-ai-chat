@@ -5,12 +5,12 @@ import {
   primaryKey,
   integer,
   pgEnum,
-  serial,
   uuid,
   jsonb,
 } from "drizzle-orm/pg-core";
 import type { AdapterAccountType } from "@auth/core/adapters";
 import { timestamps } from "./column-helpers";
+import { ChatMessage } from "@/app/api/chat/route";
 
 export const users = pgTable("users", {
   id: text("id")
@@ -69,13 +69,12 @@ export type InsertChat = typeof chats.$inferInsert;
 export const roleEnum = pgEnum("role", ["system", "user", "assistant"]);
 
 export const messages = pgTable("messages", {
-  id: serial().primaryKey(),
+  id: uuid().defaultRandom().primaryKey(),
   chatId: uuid("chat_id")
     .references(() => chats.id, { onDelete: "cascade" })
     .notNull(),
   role: roleEnum().notNull(),
-  content: text().notNull(),
-  toolInvocations: jsonb("tool_invocations"),
+  parts: jsonb("parts").$type<ChatMessage["parts"]>().notNull().default([]),
   createdAt: timestamps.createdAt,
 });
 

@@ -4,7 +4,6 @@ import {
   convertToModelMessages,
   stepCountIs,
   UIDataTypes,
-  UITools,
 } from "ai";
 import { openai } from "@/lib/ai";
 import { auth } from "@/auth";
@@ -19,12 +18,16 @@ type Payload = {
   chatId: string;
 };
 
+export const maxDuration = 30;
+
 export const POST = async (request: Request) => {
   try {
     const session = await auth();
     const userId = session?.user?.id;
 
     const { messages, chatId }: Payload = await request.json();
+
+    console.log("messages >>>", messages);
 
     if (!userId) {
       return Response.json({ error: "Unauthenticated" }, { status: 401 });
@@ -58,27 +61,32 @@ export const POST = async (request: Request) => {
     await _createMessage({
       chatId,
       role: lastMessage.role,
-      content: userMessage,
+      parts: lastMessage.parts,
     });
 
     const result = streamText({
       model: openai("gpt-4o"),
-      system: "", // TODO: Add system prompt
+      system: "You are a helpful assistant",
       messages: await convertToModelMessages(messages),
-      onFinish: async ({ text, toolCalls, toolResults }) => {
-        console.log({ toolCalls, toolResults });
-        await _createMessage({
-          chatId,
-          role: "assistant",
-          content: text,
-          toolInvocations: toolCalls,
-        });
-      },
       tools,
       stopWhen: stepCountIs(2),
     });
 
-    return result.toUIMessageStreamResponse();
+    return result.toUIMessageStreamResponse({
+      originalMessages: messages,
+      onFinish: async ({ responseMessage }) => {
+        console.log("responseMessage:", responseMessage);
+        // console.log("2.", JSON.stringify(messages));
+
+        // for (const message of messages) {
+        await _createMessage({
+          chatId,
+          role: responseMessage.role,
+          parts: responseMessage.parts,
+        });
+        // }
+      },
+    });
   } catch (error) {
     console.error("Chat Error: ", error);
     return Response.json({
